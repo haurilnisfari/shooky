@@ -1,7 +1,7 @@
 class TodoService::IndexTodoService
 
   def call
-    User.all 
+    Todo.all 
   end
 
 end
