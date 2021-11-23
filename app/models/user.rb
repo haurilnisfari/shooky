@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
+  has_many :todos
 
   validates :name, presence: true, length: {minimum: 3}
   validates :username, presence: true, uniqueness: true

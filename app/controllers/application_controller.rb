@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   before_action :authentication_access_token
 
   def authentication_access_token
-    header = request.headers[:HTTP_API_ACCES_TOKEN]
+    header = request.headers[:HTTP_API_ACCESS_TOKEN]
     #check header available
     if header.present?
       #check header valid or not
