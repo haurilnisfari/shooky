@@ -1,19 +1,23 @@
 class TodoService::UpdateTodoService
 
-  attr_reader :id, :title, :description, :status, :user_id
+  attr_reader :id, :title, :description, :status, :current_user
 
-  def initialize(id, title, description, status, user_id)
+  def initialize(id, title, description, status, current_user)
     @id = id
     @title = title
     @description = description
     @status = status
-    @user_id = user_id
+    @current_user = current_user
   end
 
   def call
-    todo = Todo.find_by id: id
-    todo.update(id: id, title: title, description: description, status: status, user_id: user_id)
-    todo
+    todo = Todo.where(user_id: current_user.id).find_by id: id
+    if todo.nil?
+      return todo
+    else
+      todo.update(title: title, description: description, status: status)
+      todo
+    end
   end
 
 end

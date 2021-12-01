@@ -1,16 +1,17 @@
 class TodoService::CreateTodoService
 
-  attr_reader :title, :description, :status, :user_id
+  attr_reader :current_user, :title, :description, :status
 
-  def initialize(title, description, status, user_id)
+  def initialize(current_user, title, description, status)
+    @current_user = current_user
     @title = title
     @description = description
     @status = status
-    @user_id = user_id
   end
 
   def call
-    todo = Todo.new(title: title, description: description, status: status, user_id: user_id)
+    todo = Todo.new(title: title, description: description, status: status)
+    todo.user_id = current_user.id
     todo.save
     todo
   end
