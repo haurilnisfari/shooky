@@ -6,7 +6,12 @@ class TodoService::IndexTodoService
   end
 
   def call
-    Todo.where(user_id: current_user.id) 
+    todos = Todo.where(user_id: current_user.id)
+    if todos
+      return {status: :ok, data: todos}
+    else
+      return {status: :error}
+    end
   end
 
 end

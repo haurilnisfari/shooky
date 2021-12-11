@@ -3,8 +3,13 @@ class Api::V1::UsersController < ApplicationController
 
   def create
     #Create User >> Registration Endpoint
-    user = UserService::CreateUserService.new(params[:username], params[:name], params[:email], params[:password], params[:password_confirmation], params[:bio]).call
-    render json: { user: user.as_json(only: [:username, :name, :email]) }
+    result = UserService::CreateUserService.new(params[:username], params[:name], params[:email], params[:password], params[:password_confirmation], params[:bio]).call
+    if result[:status] == :ok
+      user = result[:data]
+      render json: { user: user.as_json(only: [:username, :name, :email]) }
+    else
+      render json: {message: "Failed to create user"}
+    end
   rescue StandardError => e 
     render json:{ error: e }, status: 400
   end

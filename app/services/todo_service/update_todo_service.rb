@@ -11,13 +11,22 @@ class TodoService::UpdateTodoService
   end
 
   def call
-    todo = Todo.where(user_id: current_user.id).find_by id: id
-    if todo.nil?
-      return todo
-    else
-      todo.update(title: title, description: description, status: status)
-      todo
-    end
+    #pakai find_by aja, kondisinya yang banyak
+    # balikan dari service itu bentuknya hash
+    # minimal gini
+    # { status: :ok } atau { status: :error }
+    #
+    # kalau butuh data lain tinggal tambahin hash-nya, misal
+    # { status: :ok, data: todo }
+    # { status: :error, message: "You don't have access"}
+
+  todo = Todo.find_by(id: id, user_id: current_user.id)
+  if todo
+    todo.update(title: title, description: description, status: status)
+    return {status: :ok, data: todo}
+  else
+    return {status: :error}
   end
+end
 
 end

@@ -19,6 +19,11 @@ class UserService::CreateUserService
     user.access_token = user.generate_token
     user.save
     user
+    if user
+      return {status: :ok, data: user}
+    else
+      return {status: :error}
+    end
 
   end
 end

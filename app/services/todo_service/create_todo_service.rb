@@ -14,6 +14,11 @@ class TodoService::CreateTodoService
     todo.user_id = current_user.id
     todo.save
     todo
+    if todo
+      return {status: :ok, data: todo}
+    else
+      return {status: :error}
+    end
   end
 
 end
